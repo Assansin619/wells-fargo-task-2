@@ -1,15 +1,15 @@
 package com.wellsfargo.counselor.entity;
 
+
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "advisor")
-public class Advisor {
+@Table(name = "client")
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long advisorId;
+    private Long clientId;
 
     private String firstName;
     private String lastName;
@@ -17,20 +17,22 @@ public class Advisor {
     private String phone;
     private String email;
 
-    @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Client> clients;
+    @ManyToOne
+    @JoinColumn(name = "advisorId", nullable = false)
+    private Advisor advisor;
 
-    public Advisor() {}
+    public Client() {}
 
-    public Advisor(String firstName, String lastName, String address, String phone, String email) {
+    public Client(String firstName, String lastName, String address, String phone, String email, Advisor advisor) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.phone = phone;
         this.email = email;
+        this.advisor = advisor;
     }
 
-    public Long getAdvisorId() { return advisorId; }
+    public Long getClientId() { return clientId; }
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public String getLastName() { return lastName; }
